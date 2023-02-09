@@ -1,0 +1,6 @@
+all:
+  hosts:
+    orientdb:
+      ansible_connection: community.docker.docker   
+    localhost:
+      ansible_connection: local
