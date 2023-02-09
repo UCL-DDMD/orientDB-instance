@@ -7,7 +7,7 @@ To run the playbook, you need the following:
  - [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) installed
  - [Docker](https://www.docker.com) installed
  - [ansible-galaxy](https://galaxy.ansible.com) installed 
- - [orientdb role](https://github.com/migibert/orientdb-role) installed 'ansible-galaxy install migibert.orientdb'
+ - [orientdb role](https://github.com/migibert/orientdb-role) installed `ansible-galaxy install migibert.orientdb`
 
 
 Then, you can run the playbook with the following command:
