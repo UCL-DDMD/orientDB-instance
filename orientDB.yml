@@ -1,0 +1,58 @@
+# create ubuntu container and install orientDB
+---
+- name: create debian container
+  hosts: localhost
+
+  tasks:
+    - name: create linux container
+      docker_container:
+        name: orientdb
+        image: python:latest
+        state: started
+        restart_policy: unless-stopped
+        command: tail -f /dev/null
+        volumes:
+          - vol:/orientdb
+        ports:
+          - "2424:2424"
+          - "2480:2480"
+
+- name: update apt and install openjdk-8-jdk
+  hosts: orientdb
+
+  tasks:
+    - name: update apt
+      apt:
+        update_cache: yes
+  
+    - name: install default-jdk
+      apt:
+        name: default-jdk
+        state: present
+
+- name: install orientDB
+  hosts: orientdb
+  vars:
+    orientdb_version: 3.0.27
+    orientdb_users:
+      - { name: admin, password: admin }
+      - { name: root, password: root }
+  roles:
+    - { role: migibert.orientdb }
+
+- name: copy orientdb server script to init
+  hosts: orientdb
+
+  tasks:
+    - name: copy orientdb server script to init
+      copy:
+        src:  /opt/orientdb-3.0.27/bin/orientdb.sh 
+        dest: /etc/init.d/orientdb
+        remote_src: yes
+        mode: 0755
+
+    - name: start orientdb
+      shell: service orientdb start
+
+
+    
